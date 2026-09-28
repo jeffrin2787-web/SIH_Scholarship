@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '../theme/colors';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function DeficiencyBanner({ deficiency, onActionPress }) {
+  const { t } = useLanguage();
   if (!deficiency) return null;
 
   return (
@@ -10,7 +12,7 @@ export default function DeficiencyBanner({ deficiency, onActionPress }) {
       <View style={styles.topRow}>
         <View style={styles.titleContainer}>
           <Text style={styles.icon}>⚠️</Text>
-          <Text style={styles.title}>{deficiency.title || 'Action Required on Application'}</Text>
+          <Text style={styles.title}>{deficiency.title || t('deficiencyHeader', 'Action Required on Application')}</Text>
         </View>
         <View style={styles.severityBadge}>
           <Text style={styles.severityText}>{deficiency.severity || 'WARNING'}</Text>
@@ -22,7 +24,7 @@ export default function DeficiencyBanner({ deficiency, onActionPress }) {
       <View style={styles.footer}>
         <Text style={styles.schemeTag}>{deficiency.scheme_name || 'Post-Matric ST'}</Text>
         <TouchableOpacity style={styles.actionBtn} onPress={onActionPress}>
-          <Text style={styles.actionBtnText}>Resolve Now →</Text>
+          <Text style={styles.actionBtnText}>{t('resolveNow', 'Resolve Now')} →</Text>
         </TouchableOpacity>
       </View>
     </View>

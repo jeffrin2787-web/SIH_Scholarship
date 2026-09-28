@@ -36,8 +36,12 @@ function TabBarIcon({ icon, label, focused }) {
   );
 }
 
+import { useLanguage } from '../context/LanguageContext';
+
 // Student Bottom Tabs
 function StudentTabs() {
+  const { t } = useLanguage();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -50,35 +54,35 @@ function StudentTabs() {
         name="Dashboard"
         component={DashboardScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="🏠" label="Home" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="🏠" label={t('navHome', 'Home')} focused={focused} />
         }}
       />
       <Tab.Screen
         name="Apply"
         component={ApplySchemeScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="📝" label="Apply" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="📝" label={t('navApply', 'Apply')} focused={focused} />
         }}
       />
       <Tab.Screen
         name="Wallet"
         component={DocumentWalletScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="📁" label="Wallet" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="📁" label={t('navWallet', 'Wallet')} focused={focused} />
         }}
       />
       <Tab.Screen
         name="JAGO"
         component={JagoChatScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="🤖" label="JAGO AI" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="🤖" label={t('navJago', 'JAGO AI')} focused={focused} />
         }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="👤" label="Profile" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="👤" label={t('navProfile', 'Profile')} focused={focused} />
         }}
       />
     </Tab.Navigator>
@@ -87,6 +91,8 @@ function StudentTabs() {
 
 // Officer Bottom Tabs
 function OfficerTabs() {
+  const { t } = useLanguage();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -99,21 +105,21 @@ function OfficerTabs() {
         name="ReviewQueue"
         component={ReviewQueueScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="📋" label="Review Queue" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="📋" label={t('navReviewQueue', 'Review Queue')} focused={focused} />
         }}
       />
       <Tab.Screen
         name="CoverageGaps"
         component={CoverageGapScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="📊" label="Coverage Gaps" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="📊" label={t('navCoverageGaps', 'Coverage Gaps')} focused={focused} />
         }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabBarIcon icon="👤" label="Profile" focused={focused} />
+          tabBarIcon: ({ focused }) => <TabBarIcon icon="👤" label={t('navProfile', 'Profile')} focused={focused} />
         }}
       />
     </Tab.Navigator>

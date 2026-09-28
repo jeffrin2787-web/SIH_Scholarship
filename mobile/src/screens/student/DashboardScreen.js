@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import api from '../../api/client';
 import Header from '../../components/Header';
 import StageTimeline from '../../components/StageTimeline';
@@ -18,6 +19,7 @@ import DeficiencyBanner from '../../components/DeficiencyBanner';
 
 export default function DashboardScreen({ navigation }) {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [applications, setApplications] = useState([]);
@@ -60,8 +62,8 @@ export default function DashboardScreen({ navigation }) {
   return (
     <View style={styles.screen}>
       <Header
-        title="Unified ST Dashboard"
-        subtitle={`OTR: ${user?.otrNumber || '20268839201941'}`}
+        title={t('dashTitle', 'Unified ST Dashboard')}
+        subtitle={`${t('otrPrefix', 'OTR')}: ${user?.otrNumber || '20268839201941'}`}
         navigation={navigation}
         unreadCount={unreadNotifs}
       />
@@ -81,19 +83,19 @@ export default function DashboardScreen({ navigation }) {
         {/* METRICS ROW */}
         <View style={styles.metricsRow}>
           <View style={styles.metricCard}>
-            <Text style={styles.metricLabel}>Total Sanctioned</Text>
+            <Text style={styles.metricLabel}>{t('totalSanctioned', 'Total Sanctioned')}</Text>
             <Text style={styles.metricValue}>
               ₹{Number(summary?.totalSanctionedAmount || 0).toLocaleString('en-IN')}
             </Text>
-            <Text style={styles.metricSub}>Across all 5 schemes</Text>
+            <Text style={styles.metricSub}>{t('acrossSchemes', 'Across all 5 schemes')}</Text>
           </View>
 
           <View style={[styles.metricCard, styles.metricCardGreen]}>
-            <Text style={styles.metricLabel}>Total DBT Disbursed</Text>
+            <Text style={styles.metricLabel}>{t('totalDisbursed', 'Total DBT Disbursed')}</Text>
             <Text style={[styles.metricValue, { color: colors.success }]}>
               ₹{Number(summary?.totalDisbursedAmount || 0).toLocaleString('en-IN')}
             </Text>
-            <Text style={styles.metricSub}>Direct to bank account</Text>
+            <Text style={styles.metricSub}>{t('directToBank', 'Direct to bank account')}</Text>
           </View>
         </View>
 
@@ -104,7 +106,7 @@ export default function DashboardScreen({ navigation }) {
             onPress={() => navigation.navigate('Apply')}
           >
             <Text style={styles.actionIcon}>📝</Text>
-            <Text style={styles.actionText}>Apply Scheme</Text>
+            <Text style={styles.actionText}>{t('applyScheme', 'Apply Scheme')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -112,7 +114,7 @@ export default function DashboardScreen({ navigation }) {
             onPress={() => navigation.navigate('Wallet')}
           >
             <Text style={styles.actionIcon}>📁</Text>
-            <Text style={styles.actionText}>DigiLocker Wallet</Text>
+            <Text style={styles.actionText}>{t('walletBtn', 'DigiLocker Wallet')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -120,15 +122,15 @@ export default function DashboardScreen({ navigation }) {
             onPress={() => navigation.navigate('JAGO')}
           >
             <Text style={styles.actionIcon}>🤖</Text>
-            <Text style={[styles.actionText, { color: '#FFF' }]}>Ask JAGO AI</Text>
+            <Text style={[styles.actionText, { color: '#FFF' }]}>{t('askJago', 'Ask JAGO AI')}</Text>
           </TouchableOpacity>
         </View>
 
         {/* APPLICATIONS SECTION */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Track Applications (Unified 5 Schemes)</Text>
+          <Text style={styles.sectionTitle}>{t('trackApps', 'Track Applications (Unified 5 Schemes)')}</Text>
           <Text style={styles.sectionBadge}>
-            {applications.length} Active Record{applications.length === 1 ? '' : 's'}
+            {applications.length} {t('activeRecords', 'Active Record(s)')}
           </Text>
         </View>
 
@@ -137,15 +139,15 @@ export default function DashboardScreen({ navigation }) {
         ) : applications.length === 0 ? (
           <View style={styles.emptyCard}>
             <Text style={styles.emptyIcon}>📂</Text>
-            <Text style={styles.emptyTitle}>No Scholarship Applications Found</Text>
+            <Text style={styles.emptyTitle}>{t('noAppsFound', 'No Scholarship Applications Found')}</Text>
             <Text style={styles.emptyText}>
-              You haven't submitted an application for this academic session yet.
+              {t('noAppsSub', "You have not submitted an application for this academic session yet.")}
             </Text>
             <TouchableOpacity
               style={styles.emptyApplyBtn}
               onPress={() => navigation.navigate('Apply')}
             >
-              <Text style={styles.emptyApplyBtnText}>Apply for Scholarship Now</Text>
+              <Text style={styles.emptyApplyBtnText}>{t('applyNowBtn', 'Apply for Scholarship Now')}</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -164,7 +166,7 @@ export default function DashboardScreen({ navigation }) {
                 </View>
 
                 <View style={styles.amountBox}>
-                  <Text style={styles.amountTag}>Sanctioned</Text>
+                  <Text style={styles.amountTag}>{t('sanctionedTag', 'Sanctioned')}</Text>
                   <Text style={styles.sanctionAmt}>
                     ₹{Number(app.sanctionedAmount).toLocaleString('en-IN')}
                   </Text>
@@ -190,9 +192,9 @@ export default function DashboardScreen({ navigation }) {
 
               <View style={styles.cardFooter}>
                 <Text style={styles.footerStageText}>
-                  Current Stage: <Text style={styles.footerStageBold}>{app.currentStage.replace(/_/g, ' ')}</Text>
+                  {t('currentStage', 'Current Stage')}: <Text style={styles.footerStageBold}>{app.currentStage.replace(/_/g, ' ')}</Text>
                 </Text>
-                <Text style={styles.viewTimelineText}>View Detailed Timeline →</Text>
+                <Text style={styles.viewTimelineText}>{t('viewTimeline', 'View Detailed Timeline →')}</Text>
               </View>
             </TouchableOpacity>
           ))

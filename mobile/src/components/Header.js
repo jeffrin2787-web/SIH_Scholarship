@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage, LanguageSelector } from '../context/LanguageContext';
 
 export default function Header({ title, subtitle, navigation, onNotificationPress, unreadCount = 0 }) {
   const { user, isOfficer } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <View style={styles.container}>
@@ -14,8 +16,8 @@ export default function Header({ title, subtitle, navigation, onNotificationPres
             <Text style={styles.emblemText}>🇮🇳 MoTA</Text>
           </View>
           <View>
-            <Text style={styles.govtText}>MINISTRY OF TRIBAL AFFAIRS</Text>
-            <Text style={styles.subGovtText}>Government of India</Text>
+            <Text style={styles.govtText}>{t('govtTitle', 'MINISTRY OF TRIBAL AFFAIRS')}</Text>
+            <Text style={styles.subGovtText}>{t('subGovtTitle', 'Government of India')}</Text>
           </View>
         </View>
 
@@ -34,14 +36,18 @@ export default function Header({ title, subtitle, navigation, onNotificationPres
         )}
       </View>
 
+      <View style={styles.langRow}>
+        <LanguageSelector variant="compact" />
+      </View>
+
       <View style={styles.bottomRow}>
-        <View>
-          <Text style={styles.title}>{title || 'Unified Scholarship Portal'}</Text>
+        <View style={{ flex: 1, marginRight: 8 }}>
+          <Text style={styles.title}>{title || t('portalTitle', 'Unified Scholarship Portal')}</Text>
           {subtitle ? (
             <Text style={styles.subtitle}>{subtitle}</Text>
           ) : user ? (
             <Text style={styles.subtitle}>
-              {isOfficer ? `Officer Desk: ${user.name}` : `OTR: ${user.otrNumber} • ${user.name}`}
+              {isOfficer ? `${t('officerDesk', 'Officer Desk')}: ${user.name}` : `${t('otrPrefix', 'OTR')}: ${user.otrNumber} • ${user.name}`}
             </Text>
           ) : null}
         </View>
@@ -76,7 +82,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12
+    marginBottom: 10
+  },
+  langRow: {
+    marginBottom: 10
   },
   emblemContainer: {
     flexDirection: 'row',

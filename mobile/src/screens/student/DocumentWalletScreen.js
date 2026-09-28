@@ -15,6 +15,7 @@ import { colors } from '../../theme/colors';
 import api from '../../api/client';
 import Header from '../../components/Header';
 import DocumentCard from '../../components/DocumentCard';
+import { useLanguage } from '../../context/LanguageContext';
 
 const DOC_TYPES = [
   { key: 'CASTE_CERTIFICATE', label: 'ST Caste Certificate', defaultTitle: 'Scheduled Tribe (ST) Certificate', defaultIssuer: 'Sub-Divisional Officer / Tehsildar' },
@@ -163,13 +164,14 @@ export default function DocumentWalletScreen() {
     }
   };
 
+  const { t } = useLanguage();
   const verifiedCount = documents.filter((d) => d.is_digilocker_verified).length;
 
   return (
     <View style={styles.screen}>
       <Header
-        title="Digital Document Wallet"
-        subtitle="DigiLocker Integration & Reusable Vault"
+        title={t('walletTitle', 'Digital Document Wallet')}
+        subtitle={t('walletSubtitle', 'DigiLocker Integration & Reusable Vault')}
       />
 
       <ScrollView contentContainerStyle={styles.content}>
@@ -184,9 +186,9 @@ export default function DocumentWalletScreen() {
             </View>
           </View>
 
-          <Text style={styles.heroTitle}>Eliminate Repetitive Paperwork</Text>
+          <Text style={styles.heroTitle}>{t('digiBannerTitle', 'DigiLocker Integrated Wallet')}</Text>
           <Text style={styles.heroDesc}>
-            Fetch your verified ST Certificate, Income, and Marksheets once via DigiLocker, or upload scanned copies directly. Reusable across all 5 MoTA schemes without re-uploading.
+            {t('digiBannerDesc', 'Fetch your verified ST Certificate, Income, and Marksheets once via DigiLocker, or upload scanned copies directly. Reusable across all 5 MoTA schemes without re-uploading.')}
           </Text>
 
           <View style={styles.heroBtnRow}>
@@ -199,7 +201,7 @@ export default function DocumentWalletScreen() {
                 <ActivityIndicator color="#FFFFFF" />
               ) : (
                 <Text style={styles.syncBtnText}>
-                  {verifiedCount > 0 ? '🔄 Sync DigiLocker' : '🔗 Link DigiLocker'}
+                  🔄 {t('syncDigiBtn', 'Sync DigiLocker')}
                 </Text>
               )}
             </TouchableOpacity>
@@ -208,7 +210,7 @@ export default function DocumentWalletScreen() {
               style={[styles.uploadHeroBtn, { flex: 1 }]}
               onPress={() => setUploadModalVisible(true)}
             >
-              <Text style={styles.uploadHeroBtnText}>📤 Upload File</Text>
+              <Text style={styles.uploadHeroBtnText}>📤 {t('uploadNewDoc', 'Upload File')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -235,7 +237,7 @@ export default function DocumentWalletScreen() {
             style={styles.headerAddBtn}
             onPress={() => setUploadModalVisible(true)}
           >
-            <Text style={styles.headerAddBtnText}>+ Upload Scan</Text>
+            <Text style={styles.headerAddBtnText}>+ {t('uploadNewDoc', 'Upload Scan')}</Text>
           </TouchableOpacity>
         </View>
 

@@ -10,28 +10,31 @@ import {
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage, LanguageSelector } from '../../context/LanguageContext';
 import Header from '../../components/Header';
 
 export default function ProfileScreen({ navigation }) {
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
 
   const handleLogout = () => {
+    const confirmMsg = t('signOutConfirm', 'Are you sure you want to sign out?');
     if (Platform.OS === 'web') {
-      const confirmed = typeof window !== 'undefined' ? window.confirm('Are you sure you want to sign out?') : true;
+      const confirmed = typeof window !== 'undefined' ? window.confirm(confirmMsg) : true;
       if (confirmed) {
         logout();
       }
     } else {
-      Alert.alert('Sign Out', 'Are you sure you want to end your session?', [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Sign Out', style: 'destructive', onPress: logout }
+      Alert.alert(t('signOut', 'Sign Out'), confirmMsg, [
+        { text: t('cancel', 'Cancel'), style: 'cancel' },
+        { text: t('signOut', 'Sign Out'), style: 'destructive', onPress: logout }
       ]);
     }
   };
 
   return (
     <View style={styles.screen}>
-      <Header title="Student Profile" subtitle="Universal Academic Identity" />
+      <Header title={t('profileTitle', 'Student Profile')} subtitle={t('profileSubtitle', 'Universal Academic Identity')} />
 
       <ScrollView contentContainerStyle={styles.content}>
         {/* OTR IDENTITY CARD */}
@@ -40,29 +43,29 @@ export default function ProfileScreen({ navigation }) {
             <View style={styles.emblemBadge}>
               <Text style={styles.emblemText}>🇮🇳 MoTA</Text>
             </View>
-            <Text style={styles.cardHeaderTitle}>ONE-TIME REGISTRATION (OTR)</Text>
+            <Text style={styles.cardHeaderTitle}>{t('otrCardHeader', 'ONE-TIME REGISTRATION (OTR)')}</Text>
           </View>
 
           <Text style={styles.studentName}>{user?.name || 'ST Student'}</Text>
-          <Text style={styles.otrNum}>OTR: {user?.otrNumber || '20268839201941'}</Text>
+          <Text style={styles.otrNum}>{t('otrPrefix', 'OTR')}: {user?.otrNumber || '20268839201941'}</Text>
 
           <View style={styles.idGrid}>
             <View style={styles.gridItem}>
-              <Text style={styles.gridLabel}>Category:</Text>
+              <Text style={styles.gridLabel}>{t('categoryLabel', 'Category')}:</Text>
               <Text style={styles.gridVal}>
                 {user?.casteCategory || 'ST'} ({user?.subTribe || 'Santhal'})
               </Text>
             </View>
             <View style={styles.gridItem}>
-              <Text style={styles.gridLabel}>PVTG Status:</Text>
+              <Text style={styles.gridLabel}>{t('pvtgLabel', 'PVTG Status')}:</Text>
               <Text style={styles.gridVal}>{user?.pvtgStatus ? 'Yes (Birhor)' : 'No'}</Text>
             </View>
             <View style={styles.gridItem}>
-              <Text style={styles.gridLabel}>Aadhaar ID:</Text>
+              <Text style={styles.gridLabel}>{t('aadhaarLabel', 'Aadhaar ID')}:</Text>
               <Text style={styles.gridVal}>•••• •••• 9021</Text>
             </View>
             <View style={styles.gridItem}>
-              <Text style={styles.gridLabel}>Annual Income:</Text>
+              <Text style={styles.gridLabel}>{t('annualIncomeLabel', 'Annual Income')}:</Text>
               <Text style={styles.gridVal}>
                 ₹{Number(user?.annualIncome || 140000).toLocaleString('en-IN')}
               </Text>
@@ -72,30 +75,30 @@ export default function ProfileScreen({ navigation }) {
 
         {/* INSTITUTION DETAILS */}
         <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Academic Enrollment Details</Text>
+          <Text style={styles.sectionTitle}>{t('academicDetails', 'Academic Enrollment Details')}</Text>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Institution:</Text>
+            <Text style={styles.label}>{t('institutionLabel', 'Institution')}:</Text>
             <Text style={styles.val}>{user?.institutionName || 'Ranchi University'}</Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Course / Degree:</Text>
+            <Text style={styles.label}>{t('courseLabel', 'Course / Degree')}:</Text>
             <Text style={styles.val}>{user?.courseName || 'Higher Education'}</Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Registry Status:</Text>
-            <Text style={[styles.val, { color: colors.success }]}>✓ Active & Verified (AISHE)</Text>
+            <Text style={styles.label}>{t('registryStatusLabel', 'Registry Status')}:</Text>
+            <Text style={[styles.val, { color: colors.success }]}>{t('verifiedAishe', '✓ Active & Verified (AISHE)')}</Text>
           </View>
         </View>
 
         {/* DBT BANK REPOSITORY */}
         <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Direct Benefit Transfer (DBT) Bank Account</Text>
+          <Text style={styles.sectionTitle}>{t('dbtRepoTitle', 'Direct Benefit Transfer (DBT) Bank Account')}</Text>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Bank:</Text>
+            <Text style={styles.label}>{t('dbtBank', 'Beneficiary Bank')}:</Text>
             <Text style={styles.val}>{user?.bankName || 'State Bank of India'}</Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.label}>Account Number:</Text>
+            <Text style={styles.label}>{t('dbtAccNo', 'Account Number')}:</Text>
             <Text style={styles.val}>
               {user?.accountNumber ? `•••• •••• ${user.accountNumber.slice(-4)}` : '•••• 9481'}
             </Text>
@@ -103,14 +106,17 @@ export default function ProfileScreen({ navigation }) {
           <View style={styles.detailRow}>
             <Text style={styles.label}>Aadhaar NPCI Seeding:</Text>
             <Text style={[styles.val, { color: colors.success }]}>
-              {user?.aadhaarSeeded ? '✓ Mapped for Direct DBT Credit' : '⚠ Link at Bank'}
+              {user?.aadhaarSeeded ? `✓ ${t('dbtAadhaarLinked', 'Mapped for Direct DBT Credit')}` : '⚠ Link at Bank'}
             </Text>
           </View>
         </View>
 
+        {/* LANGUAGE PREFERENCE SELECTOR CARD */}
+        <LanguageSelector variant="full" />
+
         {/* LOGOUT BUTTON */}
         <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-          <Text style={styles.logoutBtnText}>Sign Out</Text>
+          <Text style={styles.logoutBtnText}>{t('signOut', 'Sign Out')}</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

@@ -11,9 +11,11 @@ import {
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage, LanguageSelector } from '../../context/LanguageContext';
 
 export default function RegisterScreen({ navigation }) {
   const { register } = useAuth();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -61,13 +63,15 @@ export default function RegisterScreen({ navigation }) {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-          <Text style={styles.backBtnText}>← Back to Login</Text>
+          <Text style={styles.backBtnText}>← {t('back', 'Back to Login')}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>ST Student OTR Registration</Text>
+        <Text style={styles.title}>{t('registerNewStudent', 'ST Student OTR Registration')}</Text>
         <Text style={styles.subtitle}>
           Creates your unified 14-digit academic identity for all 5 MoTA scholarships
         </Text>
       </View>
+
+      <LanguageSelector variant="compact" style={{ alignSelf: 'center', marginBottom: 12 }} />
 
       <View style={styles.formCard}>
         {error ? (

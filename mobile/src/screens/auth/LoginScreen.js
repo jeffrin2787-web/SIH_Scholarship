@@ -11,9 +11,11 @@ import {
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { useAuth, DEMO_ACCOUNTS } from '../../context/AuthContext';
+import { useLanguage, LanguageSelector } from '../../context/LanguageContext';
 
 export default function LoginScreen({ navigation }) {
   const { login } = useAuth();
+  const { t } = useLanguage();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -52,14 +54,16 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.emblemBadge}>
           <Text style={styles.emblemText}>🇮🇳 MoTA</Text>
         </View>
-        <Text style={styles.title}>Ministry of Tribal Affairs</Text>
-        <Text style={styles.subtitle}>Unified ST Scholarship & Fellowships Platform</Text>
+        <Text style={styles.title}>{t('govtTitle', 'Ministry of Tribal Affairs')}</Text>
+        <Text style={styles.subtitle}>{t('portalTitle', 'Unified ST Scholarship & Fellowships Platform')}</Text>
       </View>
 
+      <LanguageSelector variant="compact" style={{ alignSelf: 'center', marginBottom: 14 }} />
+
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Student & Official Login</Text>
+        <Text style={styles.cardTitle}>{t('loginCardTitle', 'Student & Official Login')}</Text>
         <Text style={styles.cardSubtitle}>
-          Sign in with your 14-digit OTR (One Time Registration) or Registered Email
+          {t('loginSubtitle', 'Sign in with your 14-digit OTR (One Time Registration) or Registered Email')}
         </Text>
 
         {error ? (
@@ -69,7 +73,7 @@ export default function LoginScreen({ navigation }) {
         ) : null}
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>OTR Number / Email / Phone</Text>
+          <Text style={styles.label}>{t('otrEmailLabel', 'OTR Number / Email / Phone')}</Text>
           <TextInput
             style={styles.input}
             placeholder="e.g. 20268839201941 or email"
@@ -80,7 +84,7 @@ export default function LoginScreen({ navigation }) {
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Password</Text>
+          <Text style={styles.label}>{t('passwordLabel', 'Password')}</Text>
           <TextInput
             style={styles.input}
             placeholder="Enter your password"
@@ -98,14 +102,14 @@ export default function LoginScreen({ navigation }) {
           {loading ? (
             <ActivityIndicator color="#FFFFFF" />
           ) : (
-            <Text style={styles.loginBtnText}>Secure Sign In →</Text>
+            <Text style={styles.loginBtnText}>{t('signInBtn', 'Sign In to Portal')} →</Text>
           )}
         </TouchableOpacity>
 
         <View style={styles.registerRow}>
-          <Text style={styles.registerPrompt}>New ST Student without OTR? </Text>
+          <Text style={styles.registerPrompt}>{t('dontHaveAccount', "Don't have an account?")} </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.registerLink}>Register for 14-Digit OTR</Text>
+            <Text style={styles.registerLink}>{t('registerNewStudent', 'Register for 14-Digit OTR')}</Text>
           </TouchableOpacity>
         </View>
       </View>

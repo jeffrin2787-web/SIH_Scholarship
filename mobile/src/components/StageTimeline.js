@@ -1,16 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../theme/colors';
-
-const STAGES = [
-  { key: 'SUBMITTED', label: 'Submitted' },
-  { key: 'INSTITUTE_VERIFIED', label: 'Institute' },
-  { key: 'DISTRICT_VERIFIED', label: 'District' },
-  { key: 'STATE_SANCTIONED', label: 'Sanction' },
-  { key: 'DISBURSED', label: 'DBT Credit' }
-];
+import { useLanguage } from '../context/LanguageContext';
 
 export default function StageTimeline({ currentStage, isFlagged = false }) {
+  const { t } = useLanguage();
+
+  const stages = [
+    { key: 'SUBMITTED', label: t('stageSubmitted', 'Submitted') },
+    { key: 'INSTITUTE_VERIFIED', label: t('stageInstitute', 'Institute') },
+    { key: 'DISTRICT_VERIFIED', label: t('stageDistrict', 'District') },
+    { key: 'STATE_SANCTIONED', label: t('stageSanction', 'Sanction') },
+    { key: 'DISBURSED', label: t('stageDbtCredit', 'DBT Credit') }
+  ];
+
   const getStageIndex = (stage) => {
     switch (stage) {
       case 'SUBMITTED': return 0;
@@ -28,7 +31,7 @@ export default function StageTimeline({ currentStage, isFlagged = false }) {
   return (
     <View style={styles.container}>
       <View style={styles.stepsContainer}>
-        {STAGES.map((stage, idx) => {
+        {stages.map((stage, idx) => {
           const isCompleted = idx < activeIndex;
           const isCurrent = idx === activeIndex;
           const isFlaggedHere = isCurrent && isFlagged;
@@ -69,7 +72,7 @@ export default function StageTimeline({ currentStage, isFlagged = false }) {
                 </Text>
               </View>
 
-              {idx < STAGES.length - 1 && (
+              {idx < stages.length - 1 && (
                 <View
                   style={[
                     styles.line,

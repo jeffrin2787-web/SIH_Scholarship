@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { colors } from '../../theme/colors';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
 import api from '../../api/client';
 import Header from '../../components/Header';
 
@@ -105,7 +106,7 @@ export default function JagoChatScreen({ navigation }) {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
-  const [language, setLanguage] = useState('en'); // 'en', 'hi', 'ta', 'as', 'bho'
+  const { language, setLanguage } = useLanguage();
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef();
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../theme/colors';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function DbtCard({
   dbtStatus,
@@ -11,6 +12,7 @@ export default function DbtCard({
   utrNumber,
   aadhaarSeeded = 1
 }) {
+  const { t } = useLanguage();
   const isDisbursed = dbtStatus === 'CREDITED_TO_ACCOUNT' || disbursedAmount > 0;
   const isPending = !isDisbursed;
 
@@ -20,26 +22,26 @@ export default function DbtCard({
         <View style={styles.headerLeft}>
           <Text style={styles.icon}>🏦</Text>
           <View>
-            <Text style={styles.title}>Direct Benefit Transfer (DBT)</Text>
-            <Text style={styles.subtitle}>PFMS Electronic Payment Gateway</Text>
+            <Text style={styles.title}>{t('dbtTitle', 'Direct Benefit Transfer (DBT)')}</Text>
+            <Text style={styles.subtitle}>{t('dbtSubtitle', 'PFMS Electronic Payment Gateway')}</Text>
           </View>
         </View>
 
         <View style={[styles.badge, isDisbursed ? styles.badgeSuccess : styles.badgePending]}>
           <Text style={[styles.badgeText, isDisbursed ? styles.textSuccess : styles.textPending]}>
-            {isDisbursed ? 'CREDITED' : 'IN PROCESS'}
+            {isDisbursed ? t('dbtCredited', 'CREDITED') : t('dbtInProcess', 'IN PROCESS')}
           </Text>
         </View>
       </View>
 
       <View style={styles.amountsRow}>
         <View style={styles.amountBlock}>
-          <Text style={styles.amountLabel}>Sanctioned Amount</Text>
+          <Text style={styles.amountLabel}>{t('dbtSanctionedAmt', 'Sanctioned Amount')}</Text>
           <Text style={styles.amountValue}>₹{Number(sanctionedAmount).toLocaleString('en-IN')}</Text>
         </View>
         <View style={styles.divider} />
         <View style={styles.amountBlock}>
-          <Text style={styles.amountLabel}>Disbursed Amount</Text>
+          <Text style={styles.amountLabel}>{t('dbtDisbursedAmt', 'Disbursed Amount')}</Text>
           <Text style={[styles.amountValue, isDisbursed && styles.amountDisbursed]}>
             ₹{Number(disbursedAmount).toLocaleString('en-IN')}
           </Text>
@@ -48,11 +50,11 @@ export default function DbtCard({
 
       <View style={styles.detailsBox}>
         <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Beneficiary Bank:</Text>
+          <Text style={styles.detailLabel}>{t('dbtBank', 'Beneficiary Bank')}:</Text>
           <Text style={styles.detailValue}>{bankName || 'State Bank of India'}</Text>
         </View>
         <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Account Number:</Text>
+          <Text style={styles.detailLabel}>{t('dbtAccNo', 'Account Number')}:</Text>
           <Text style={styles.detailValue}>
             {accountNumber ? `•••• •••• ${accountNumber.slice(-4)}` : '•••• 9481'}
           </Text>
@@ -60,13 +62,13 @@ export default function DbtCard({
         <View style={styles.detailRow}>
           <Text style={styles.detailLabel}>Aadhaar Seeding:</Text>
           <Text style={[styles.detailValue, aadhaarSeeded ? styles.seeded : styles.notSeeded]}>
-            {aadhaarSeeded ? '✓ Active & NPCI Mapped' : '⚠ Link at Bank Branch'}
+            {aadhaarSeeded ? `✓ ${t('dbtAadhaarLinked', 'Active & NPCI Mapped')}` : '⚠ Link at Bank Branch'}
           </Text>
         </View>
 
         {utrNumber && (
           <View style={styles.utrRow}>
-            <Text style={styles.utrLabel}>PFMS Bank UTR:</Text>
+            <Text style={styles.utrLabel}>{t('dbtUtr', 'PFMS Bank UTR')}:</Text>
             <Text style={styles.utrValue}>{utrNumber}</Text>
           </View>
         )}
