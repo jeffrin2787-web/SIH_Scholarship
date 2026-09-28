@@ -1,24 +1,44 @@
-{
+﻿{
   "expo": {
     "name": "MoTA ST Scholarships",
     "slug": "mota-st-scholarships",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#1B4D3E"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "in.gov.mota.scholarships",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "package": "in.gov.mota.scholarships",
+      "versionCode": 1,
       "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1B4D3E"
       },
-      "package": "in.gov.mota.scholarships"
+      "permissions": [
+        "INTERNET",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png",
+      "name": "MoTA ST Scholarships Portal",
+      "shortName": "MoTA Portal",
+      "lang": "en",
+      "display": "standalone",
+      "orientation": "portrait",
+      "themeColor": "#1B4D3E",
+      "backgroundColor": "#1B4D3E"
     }
   }
 }
