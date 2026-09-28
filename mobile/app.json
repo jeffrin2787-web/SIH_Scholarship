@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "MoTA ST Scholarships",
+    "slug": "mota-st-scholarships",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#1B4D3E"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1B4D3E"
+      },
+      "package": "in.gov.mota.scholarships"
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
